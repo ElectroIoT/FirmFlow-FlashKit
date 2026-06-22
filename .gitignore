@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Portable runtime (downloaded on first launch)
+runtime/
+
 # Tauri build artifacts
 src-tauri/target
 src-tauri/gen
