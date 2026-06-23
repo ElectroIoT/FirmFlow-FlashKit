@@ -707,7 +707,9 @@
 | **Serial Monitor** | 🖥️ | Real-time terminal, send commands, export logs |
 | **Partition Table** | 🗂️ | Visual flash map + full partition details |
 | **Flash History** | 📋 | Complete log of all flash operations |
+| **USB Drivers** | 🔌 | Download CH340, CP2102, FTDI, PL2303 drivers |
 | **Settings** | ⚙️ | esptool path, preferences, app info |
+| **About & Credits** | ❤️ | Developers, open-source libraries, MIT license |
 
 </div>
 
@@ -828,6 +830,35 @@ Typography:
 
 ---
 
+## 👥 Contributors
+
+<div align="center">
+
+<table>
+<tr>
+<td align="center">
+<a href="https://github.com/ElectroIoT">
+<img src="https://github.com/ElectroIoT.png" width="80" height="80" style="border-radius:50%" alt="ElectroIoT"/><br/>
+<strong>ElectroIoT</strong>
+</a><br/>
+<sub>Lead Developer</sub><br/>
+<a href="mailto:electroiot.in@gmail.com">electroiot.in@gmail.com</a>
+</td>
+<td align="center">
+<a href="https://github.com/manoranjan2050">
+<img src="https://github.com/manoranjan2050.png" width="80" height="80" style="border-radius:50%" alt="Manoranjan"/><br/>
+<strong>Manoranjan</strong>
+</a><br/>
+<sub>Co-Developer</sub><br/>
+<a href="mailto:manoranjan2050@live.com">manoranjan2050@live.com</a>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome!
@@ -840,15 +871,35 @@ Contributions are welcome!
 
 ---
 
-## 📄 License
+## 📄 License — Open Source Declaration
 
-MIT License — see [LICENSE](LICENSE) for details.
+FirmFlow FlashKit is **free and open-source software** licensed under the **MIT License**.
+
+```
+MIT License
+
+Copyright (c) 2026 ElectroIoT & Manoranjan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+```
 
 ---
 
 <div align="center">
 
-**Built with ❤️ by [ElectroIoT](https://github.com/ElectroIoT)**
+**Built with ❤️ by [ElectroIoT](https://github.com/ElectroIoT) & [Manoranjan](https://github.com/manoranjan2050)**
 
 Powered by [esptool.py](https://github.com/espressif/esptool) · [Tauri](https://tauri.app) · [React](https://react.dev) · [Framer Motion](https://www.framer.com/motion/)
 

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Cpu, Zap, HardDrive, Wifi, Clock, CheckCircle2, XCircle, Activity } from "lucide-react";
+import { Cpu, Zap, HardDrive, Wifi, Clock, CheckCircle2, XCircle, Activity, ExternalLink } from "lucide-react";
 import { useFlashStore } from "../store/useFlashStore";
 
 const fade = (i: number) => ({
@@ -130,9 +130,9 @@ export default function Dashboard() {
       {/* Quick tips */}
       <motion.div {...fade(7)} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
-          { icon: Zap, tip: "Flash", desc: "Upload .bin firmware to your chip" },
-          { icon: HardDrive, tip: "Backup", desc: "Dump current flash to a file" },
-          { icon: Clock, tip: "History", desc: "Browse past flash operations" },
+          { icon: Zap,       tip: "Flash",   desc: "Upload .bin firmware to your chip" },
+          { icon: HardDrive, tip: "Backup",  desc: "Dump current flash to a file"      },
+          { icon: Clock,     tip: "History", desc: "Browse past flash operations"       },
         ].map(({ icon: Icon, tip, desc }) => (
           <div key={tip} className="glass rounded-xl p-4 border border-[#1c2845] hover:border-green-500/20 transition-colors group cursor-pointer">
             <Icon size={20} className="text-slate-500 group-hover:text-green-400 transition-colors mb-2" />
@@ -140,6 +140,42 @@ export default function Dashboard() {
             <p className="text-xs text-slate-600 mt-0.5">{desc}</p>
           </div>
         ))}
+      </motion.div>
+
+      {/* Developer footer */}
+      <motion.div {...fade(8)} className="glass rounded-xl p-4 border border-[#1c2845]">
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="flex items-center gap-3">
+            {[
+              { github: "ElectroIoT",    label: "ElectroIoT", role: "Developer",    border: "border-green-500/50" },
+              { github: "manoranjan2050",label: "Manoranjan",  role: "Co-Developer", border: "border-cyan-500/50"  },
+            ].map(dev => (
+              <a key={dev.github} href={`https://github.com/${dev.github}`}
+                target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 group">
+                <img src={`https://github.com/${dev.github}.png?size=32`} alt={dev.label}
+                  onError={(e) => { (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${dev.label}&background=1c2845&color=4ade80&size=32`; }}
+                  className={`w-7 h-7 rounded-full border-2 ${dev.border} group-hover:scale-110 transition-transform`} />
+                <div className="hidden sm:block">
+                  <p className="text-xs text-slate-300 leading-none">{dev.label}</p>
+                  <p className="text-[9px] text-slate-600">{dev.role}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div className="flex-1 text-center sm:text-left">
+            <p className="text-xs text-slate-500">
+              <span className="text-white font-medium">FirmFlow FlashKit</span>
+              {" "}— Open-source ESP32/ESP8266 firmware manager
+            </p>
+            <p className="text-[10px] text-slate-600 mt-0.5">MIT License · v1.0.0</p>
+          </div>
+          <a href="https://github.com/ElectroIoT/FirmFlow-FlashKit"
+            target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs border border-[#1c2845] text-slate-400 hover:text-white hover:border-green-500/30 transition-colors">
+            <ExternalLink size={11} /> GitHub
+          </a>
+        </div>
       </motion.div>
     </div>
   );
