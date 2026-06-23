@@ -6,8 +6,13 @@ import path from "path";
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
+// When building for GitHub Pages, assets must be relative to the repo sub-path.
+// TAURI_PLATFORM is set during tauri build; absent means we're doing a plain web build.
+const isWeb = !process.env.TAURI_PLATFORM;
+
 export default defineConfig(async () => ({
   plugins: [react(), tailwindcss()],
+  base: isWeb ? "/FirmFlow-FlashKit/" : "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
