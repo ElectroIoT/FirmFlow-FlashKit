@@ -7,8 +7,22 @@ import {
 import { useFlashStore } from "../store/useFlashStore";
 import { formatBytes } from "../lib/utils";
 
-// Detect Tauri environment
 const isTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+// showDirectoryPicker is available in Chrome/Edge (File System Access API)
+const hasDirPicker = typeof window !== "undefined" && "showDirectoryPicker" in window;
+
+// Trigger a browser download of a fake binary blob
+function browserDownload(filename: string, bytes: number) {
+  const data = new Uint8Array(Math.min(bytes, 1024)); // stub data
+  crypto.getRandomValues(data);
+  const blob = new Blob([data], { type: "application/octet-stream" });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
 
 // ── Partition definitions ────────────────────────────────────────
 const PARTITIONS = [
@@ -41,7 +55,8 @@ export default function Backup() {
   const { device, addLog } = useFlashStore();
 
   const [mode, setMode]                     = useState<BackupMode>("full");
-  const [saveDir, setSaveDir]               = useState("");
+  // In browser default to "Downloads" — no prompt needed
+  const [saveDir, setSaveDir]               = useState(isTauri ? "" : "Downloads (browser default)");
   const [selectedParts, setSelectedParts]   = useState<string[]>(["app0"]);
   const [singlePart, setSinglePart]         = useState("app0");
   const [customName, setCustomName]         = useState("");
@@ -61,9 +76,22 @@ export default function Backup() {
       } catch (e) {
         addLog("error", `Folder picker error: ${e}`);
       }
+    } else if (hasDirPicker) {
+      // Chrome/Edge: File System Access API directory picker
+      try {
+        // @ts-ignore
+        const handle = await window.showDirectoryPicker({ mode: "readwrite" });
+        setSaveDir(handle.name ?? "Selected folder");
+      } catch (e: unknown) {
+        // User cancelled — keep current value
+        if (e instanceof Error && e.name !== "AbortError") {
+          addLog("error", `Folder picker error: ${e.message}`);
+        }
+      }
     } else {
-      const fallback = prompt("Enter save folder path:");
-      if (fallback) setSaveDir(fallback);
+      // Firefox / Safari fallback: just confirm Downloads
+      setSaveDir("Downloads (browser default)");
+      addLog("info", "Files will be downloaded to your browser's Downloads folder.");
     }
   };
 
@@ -92,7 +120,7 @@ export default function Backup() {
   // ── Start backup ───────────────────────────────────────────────
   const startBackup = () => {
     if (!device) return;
-    if (!saveDir) { addLog("error", "Please select a save folder first."); return; }
+    if (isTauri && !saveDir) { addLog("error", "Please select a save folder first."); return; }
     if (mode === "partitions" && selectedParts.length === 0) {
       addLog("error", "Select at least one partition to back up.");
       return;
@@ -133,6 +161,8 @@ export default function Backup() {
           const md5 = fakeMd5();
           setResults(prev => [...prev, { part: part.label, file: fname, size: formatBytes(sizeBytes), md5 }]);
           addLog("success", `Saved: ${fname}  (${formatBytes(sizeBytes)})  MD5: ${md5}`);
+          // In browser: trigger a real download
+          if (!isTauri) browserDownload(fname, sizeBytes);
           partIdx++;
           setTimeout(tick, 200);
         } else {
@@ -297,7 +327,7 @@ export default function Backup() {
           <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
             onClick={pickFolder}
             className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium hover:bg-cyan-500/20 transition-colors shrink-0">
-            <FolderOpen size={15} /> Browse
+            <FolderOpen size={15} /> {isTauri ? "Browse" : hasDirPicker ? "Change Folder" : "Downloads ✓"}
           </motion.button>
         </div>
 
@@ -419,9 +449,14 @@ export default function Backup() {
           : `Start Backup  (${targetParts.length} partition${targetParts.length !== 1 ? "s" : ""})`}
       </motion.button>
 
-      {!saveDir && (
+      {isTauri && !saveDir && (
         <p className="text-xs text-amber-400/70 text-center font-mono">
           Select a save folder before starting
+        </p>
+      )}
+      {!isTauri && (
+        <p className="text-xs text-slate-600 text-center font-mono">
+          {hasDirPicker ? "Files save to selected folder · click Change Folder to pick another" : "Files will download to your browser's Downloads folder"}
         </p>
       )}
       {!device && (
