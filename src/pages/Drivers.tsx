@@ -86,8 +86,15 @@ const COLORS: Record<string, { card: string; badge: string; btn: string; icon: s
   slate:  { card: "border-slate-500/25",  badge: "bg-slate-500/10 text-slate-400 border-slate-500/30",   btn: "bg-slate-500/10 border-slate-500/30 text-slate-400 hover:bg-slate-500/20",  icon: "text-slate-400"  },
 };
 
-function openUrl(url: string) {
-  window.open(url, "_blank", "noopener,noreferrer");
+const isTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+
+async function openUrl(url: string) {
+  if (isTauri) {
+    const { openUrl: tauriOpen } = await import("@tauri-apps/plugin-opener");
+    await tauriOpen(url);
+  } else {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 }
 
 export default function Drivers() {

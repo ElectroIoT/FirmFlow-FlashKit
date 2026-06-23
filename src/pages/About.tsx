@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Heart, Code2, Shield, Star, Package } from "lucide-react";
 
-function openUrl(url: string) {
-  window.open(url, "_blank", "noopener,noreferrer");
+const isTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+
+async function openUrl(url: string) {
+  if (isTauri) {
+    const { openUrl: tauriOpen } = await import("@tauri-apps/plugin-opener");
+    await tauriOpen(url);
+  } else {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 }
 
 const DEVELOPERS = [
