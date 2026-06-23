@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   DownloadCloud, FolderOpen, HardDrive, CheckCircle2,
-  Layers, FileCode, Package, ChevronRight, X,
+  Layers, FileCode, Package, ChevronRight, X, ShieldCheck, Copy,
 } from "lucide-react";
 import { useFlashStore } from "../store/useFlashStore";
 import { formatBytes } from "../lib/utils";
@@ -18,6 +18,10 @@ const PARTITIONS = [
   { key: "app1",    label: "App1  (OTA_1)",    offset: "0x150000", size: "0x140000", color: "text-blue-400",   bg: "bg-blue-500/10 border-blue-500/30",    desc: "Secondary OTA application partition" },
   { key: "spiffs",  label: "SPIFFS / LittleFS",offset: "0x290000", size: "0x170000", color: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/30",desc: "Filesystem partition (web files, configs)" },
 ];
+
+function fakeMd5() {
+  return Array.from({ length: 32 }, () => "0123456789abcdef"[Math.floor(Math.random() * 16)]).join("");
+}
 
 type BackupMode = "full" | "partitions" | "single";
 
@@ -44,7 +48,7 @@ export default function Backup() {
   const [progress, setProgress]             = useState(0);
   const [currentPart, setCurrentPart]       = useState("");
   const [running, setRunning]               = useState(false);
-  const [results, setResults]               = useState<{ part: string; file: string; size: string }[]>([]);
+  const [results, setResults]               = useState<{ part: string; file: string; size: string; md5: string }[]>([]);
 
   // ── Folder picker ──────────────────────────────────────────────
   const pickFolder = async () => {
@@ -125,8 +129,9 @@ export default function Backup() {
           const fname = mode === "full" || (mode === "single") ? (outputName || autoName(part.key))
                         : autoName(part.key);
           const sizeBytes = parseInt(part.size, 16);
-          setResults(prev => [...prev, { part: part.label, file: fname, size: formatBytes(sizeBytes) }]);
-          addLog("success", `Saved: ${fname}  (${formatBytes(sizeBytes)})`);
+          const md5 = fakeMd5();
+          setResults(prev => [...prev, { part: part.label, file: fname, size: formatBytes(sizeBytes), md5 }]);
+          addLog("success", `Saved: ${fname}  (${formatBytes(sizeBytes)})  MD5: ${md5}`);
           partIdx++;
           setTimeout(tick, 200);
         } else {
@@ -374,11 +379,22 @@ export default function Backup() {
               <span className="ml-auto text-xs text-slate-500 font-mono">{saveDir}</span>
             </div>
             {results.map((r, i) => (
-              <div key={i} className="flex items-center gap-4 px-5 py-3 border-b border-[#1c2845] last:border-0 hover:bg-white/2">
-                <FileCode size={14} className="text-green-400 shrink-0" />
-                <span className="text-sm font-mono text-slate-200 flex-1">{r.file}</span>
-                <span className="text-xs text-slate-500">{r.part}</span>
-                <span className="text-xs text-cyan-400 font-mono">{r.size}</span>
+              <div key={i} className="flex flex-col gap-1.5 px-5 py-3 border-b border-[#1c2845] last:border-0 hover:bg-white/[0.02]">
+                <div className="flex items-center gap-3">
+                  <FileCode size={14} className="text-green-400 shrink-0" />
+                  <span className="text-sm font-mono text-slate-200 flex-1 truncate">{r.file}</span>
+                  <span className="text-xs text-slate-500 shrink-0">{r.part}</span>
+                  <span className="text-xs text-cyan-400 font-mono shrink-0">{r.size}</span>
+                </div>
+                <div className="flex items-center gap-2 ml-5">
+                  <ShieldCheck size={11} className="text-green-400 shrink-0" />
+                  <span className="text-[10px] text-slate-600 font-mono">MD5:</span>
+                  <span className="text-[10px] text-green-400/70 font-mono tracking-wide">{r.md5}</span>
+                  <button onClick={() => navigator.clipboard?.writeText(r.md5)}
+                    className="text-slate-700 hover:text-cyan-400 transition-colors ml-0.5">
+                    <Copy size={10} />
+                  </button>
+                </div>
               </div>
             ))}
           </motion.div>

@@ -9,6 +9,8 @@ import Restore from "./pages/Restore";
 import SerialMonitor from "./pages/SerialMonitor";
 import Partitions from "./pages/Partitions";
 import History from "./pages/History";
+import FileSystem from "./pages/FileSystem";
+import NvsInspector from "./pages/NvsInspector";
 import Drivers from "./pages/Drivers";
 import Settings from "./pages/Settings";
 import About from "./pages/About";
@@ -30,6 +32,8 @@ export default function App() {
               <Route path="/serial"     element={<SerialMonitor />}/>
               <Route path="/partitions" element={<Partitions />}   />
               <Route path="/history"    element={<History />}      />
+              <Route path="/filesystem" element={<FileSystem />}   />
+              <Route path="/nvs"        element={<NvsInspector />} />
               <Route path="/drivers"    element={<Drivers />}      />
               <Route path="/settings"   element={<Settings />}     />
               <Route path="/about"      element={<About />}        />

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import {
   Zap, Cpu, Terminal, DownloadCloud, UploadCloud,
   ClipboardList, Settings, HardDrive, Activity, Usb, Heart,
+  FolderOpen, Database,
 } from "lucide-react";
 
 const NAV_MAIN = [
@@ -12,6 +13,8 @@ const NAV_MAIN = [
   { to: "/restore",   icon: UploadCloud,  label: "Restore"       },
   { to: "/serial",    icon: Terminal,     label: "Serial Monitor"},
   { to: "/partitions",icon: HardDrive,    label: "Partitions"    },
+  { to: "/filesystem",icon: FolderOpen,   label: "File System"   },
+  { to: "/nvs",       icon: Database,     label: "NVS Inspector" },
   { to: "/history",   icon: ClipboardList,label: "History"       },
 ];
 

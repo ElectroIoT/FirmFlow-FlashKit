@@ -68,14 +68,33 @@ function Download-File($url, $dest, $label) {
 # ---------------------------------------------------------------
 Print-Header
 
-# FAST PATH - exe already built, just launch it
+# FAST PATH - exe already built
 if (Test-Path $EXE_PATH) {
-    OK "Release build found - launching instantly!"
+    $exeTime  = (Get-Item $EXE_PATH).LastWriteTime
+
+    # Check if any source file is newer than the built exe
+    $srcNew   = Get-ChildItem "$ROOT\src"        -Recurse -File -ErrorAction SilentlyContinue |
+                    Where-Object { $_.LastWriteTime -gt $exeTime } | Select-Object -First 1
+    $rustNew  = Get-ChildItem "$ROOT\src-tauri\src" -Recurse -File -ErrorAction SilentlyContinue |
+                    Where-Object { $_.LastWriteTime -gt $exeTime } | Select-Object -First 1
+    $confNew  = Get-ChildItem "$ROOT\src-tauri\tauri.conf.json","$ROOT\src-tauri\Cargo.toml","$ROOT\vite.config.ts" -ErrorAction SilentlyContinue |
+                    Where-Object { $_.LastWriteTime -gt $exeTime } | Select-Object -First 1
+
+    if (-not $srcNew -and -not $rustNew -and -not $confNew) {
+        OK "Release build is up to date - launching instantly!"
+        Write-Host ""
+        INFO "Path: $EXE_PATH"
+        Write-Host ""
+        Start-Process -FilePath $EXE_PATH
+        exit 0
+    }
+
+    # Source changed - need rebuild
+    $changedFile = if ($srcNew) { $srcNew.Name } elseif ($rustNew) { $rustNew.Name } else { $confNew.Name }
     Write-Host ""
-    INFO "Path: $EXE_PATH"
+    WARN "Source code changed since last build ($changedFile and possibly others)."
+    WARN "Rebuilding to pick up latest changes..."
     Write-Host ""
-    Start-Process -FilePath $EXE_PATH
-    exit 0
 }
 
 # ---------------------------------------------------------------
