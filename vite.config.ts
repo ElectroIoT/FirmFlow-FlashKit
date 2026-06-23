@@ -13,6 +13,13 @@ const isWeb = !process.env.TAURI_PLATFORM;
 export default defineConfig(async () => ({
   plugins: [react(), tailwindcss()],
   base: isWeb ? "/FirmFlow-FlashKit/" : "/",
+  build: isWeb ? {
+    rollupOptions: {
+      external: [
+        /^@tauri-apps\/.*/,
+      ],
+    },
+  } : {},
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
