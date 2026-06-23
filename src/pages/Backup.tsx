@@ -54,6 +54,7 @@ export default function Backup() {
   const pickFolder = async () => {
     if (isTauri) {
       try {
+        // @ts-ignore — Tauri-only package, not available in web build
         const { open } = await import("@tauri-apps/plugin-dialog");
         const chosen = await open({ directory: true, title: "Select backup save folder" });
         if (chosen) setSaveDir(chosen as string);

@@ -65,6 +65,7 @@ export default function FileSystem() {
     if (!device || !loaded) return;
     if (isTauri) {
       try {
+        // @ts-ignore — Tauri-only package, not available in web build
         const { open } = await import("@tauri-apps/plugin-dialog");
         const chosen = await open({ multiple: true, title: "Select files to upload" });
         if (!chosen) return;
