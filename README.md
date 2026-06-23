@@ -53,154 +53,78 @@
 
 ---
 
-## 🖥️ App Preview
+## 🖥️ Screenshots
 
 <div align="center">
 
-<!-- Animated Dashboard SVG -->
-<svg width="780" height="420" viewBox="0 0 780 420" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <style>
-    .pulse{animation:pulse 2s ease-in-out infinite}
-    .pulse2{animation:pulse 2s ease-in-out infinite .5s}
-    .pulse3{animation:pulse 2s ease-in-out infinite 1s}
-    .blink{animation:blink 1.2s step-end infinite}
-    .bar1{animation:grow1 3s ease-out infinite}
-    .bar2{animation:grow2 3s ease-out infinite .4s}
-    .bar3{animation:grow3 3s ease-out infinite .8s}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-    @keyframes grow1{0%{width:0}60%{width:340px}100%{width:340px}}
-    @keyframes grow2{0%{width:0}60%{width:180px}100%{width:180px}}
-    @keyframes grow3{0%{width:0}60%{width:260px}100%{width:260px}}
-  </style>
-  <pattern id="g" width="24" height="24" patternUnits="userSpaceOnUse">
-    <path d="M24 0L0 0 0 24" fill="none" stroke="#1c2845" stroke-width=".5"/>
-  </pattern>
-  <linearGradient id="pg" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#22c55e"/>
-    <stop offset="100%" stop-color="#06b6d4"/>
-  </linearGradient>
-  <linearGradient id="pg2" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#8b5cf6"/>
-    <stop offset="100%" stop-color="#06b6d4"/>
-  </linearGradient>
-</defs>
+### 📊 Dashboard — Live device stats & activity
 
-<!-- Window -->
-<rect width="780" height="420" rx="12" fill="#060c17" stroke="#1c2845" stroke-width="1.5"/>
-<rect width="780" height="420" rx="12" fill="url(#g)" fill-opacity=".5"/>
+![Dashboard](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/dashboard_page.jpg)
 
-<!-- Title bar -->
-<rect width="780" height="36" rx="12" fill="#0a0f1a"/>
-<rect y="24" width="780" height="12" fill="#0a0f1a"/>
-<circle cx="18" cy="18" r="5" fill="#ef4444" opacity=".7"/>
-<circle cx="34" cy="18" r="5" fill="#f59e0b" opacity=".7"/>
-<circle cx="50" cy="18" r="5" fill="#22c55e" opacity=".7"/>
-<text x="390" y="23" fill="#475569" font-size="11" font-family="sans-serif" text-anchor="middle">FirmFlow FlashKit — ESP32-DevKitC · COM3</text>
+<br/>
 
-<!-- Sidebar -->
-<rect x="0" y="36" width="52" height="384" fill="#0a0f1a"/>
-<rect x="52" y="36" width="1" height="384" fill="#1c2845"/>
+### ⚡ Flash Firmware — Drag & drop .bin with options
 
-<!-- Sidebar icons -->
-<rect x="10" y="48"  width="32" height="28" rx="6" fill="#22c55e" fill-opacity=".15" stroke="#22c55e" stroke-opacity=".4" stroke-width="1"/>
-<text x="26" y="66" text-anchor="middle" font-size="13">📊</text>
-<text x="26" y="98"  text-anchor="middle" font-size="13">⚡</text>
-<text x="26" y="122" text-anchor="middle" font-size="13">💾</text>
-<text x="26" y="146" text-anchor="middle" font-size="13">⬆️</text>
-<text x="26" y="170" text-anchor="middle" font-size="13">🖥️</text>
-<text x="26" y="194" text-anchor="middle" font-size="13">🗂️</text>
-<text x="26" y="218" text-anchor="middle" font-size="13">📁</text>
-<text x="26" y="242" text-anchor="middle" font-size="13">🔑</text>
-<text x="26" y="380" text-anchor="middle" font-size="13">🔌</text>
-<text x="26" y="400" text-anchor="middle" font-size="11">⚙️</text>
+![Flash](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/flash_page.jpg)
 
-<!-- Topbar -->
-<rect x="52" y="36" width="728" height="40" fill="#0d1525" stroke="#1c2845" stroke-width="0"/>
-<rect x="52" y="76" width="728" height="1" fill="#1c2845"/>
-<!-- Port selector -->
-<rect x="62" y="44" width="100" height="22" rx="4" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="68" y="59" fill="#64748b" font-size="9" font-family="monospace">COM3  ▾</text>
-<rect x="170" y="44" width="70" height="22" rx="4" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="176" y="59" fill="#64748b" font-size="9" font-family="monospace">115200  ▾</text>
-<!-- Connected badge -->
-<rect x="580" y="44" width="90" height="22" rx="11" fill="#22c55e" fill-opacity=".12" stroke="#22c55e" stroke-opacity=".5" stroke-width="1"/>
-<circle cx="592" cy="55" r="4" fill="#22c55e" class="pulse"/>
-<text x="600" y="59" fill="#22c55e" font-size="9" font-family="monospace">ESP32-D0WD</text>
-<!-- Disconnect btn -->
-<rect x="680" y="44" width="90" height="22" rx="4" fill="#ef4444" fill-opacity=".1" stroke="#ef4444" stroke-opacity=".4" stroke-width="1"/>
-<text x="725" y="59" fill="#ef4444" font-size="9" font-family="monospace" text-anchor="middle">Disconnect</text>
+<br/>
 
-<!-- Main content area -->
-<!-- Stat cards row -->
-<rect x="62" y="88" width="155" height="68" rx="8" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="76" y="107" fill="#64748b" font-size="8" font-family="sans-serif">CHIP</text>
-<text x="76" y="125" fill="#4ade80" font-size="13" font-family="monospace" font-weight="bold">ESP32-D0WD</text>
-<text x="76" y="142" fill="#475569" font-size="8" font-family="sans-serif">240 MHz · Xtensa LX6</text>
+### 🖥️ Serial Monitor — Live color-coded output
 
-<rect x="226" y="88" width="155" height="68" rx="8" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="240" y="107" fill="#64748b" font-size="8" font-family="sans-serif">FLASH SIZE</text>
-<text x="240" y="125" fill="#22d3ee" font-size="13" font-family="monospace" font-weight="bold">4 MB</text>
-<text x="240" y="142" fill="#475569" font-size="8" font-family="sans-serif">QIO · 80MHz</text>
+![Serial Monitor](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/serial_monitor_page.jpg)
 
-<rect x="390" y="88" width="155" height="68" rx="8" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="404" y="107" fill="#64748b" font-size="8" font-family="sans-serif">FLASH OPS</text>
-<text x="404" y="125" fill="#4ade80" font-size="13" font-family="monospace" font-weight="bold">12 Success</text>
-<text x="404" y="142" fill="#475569" font-size="8" font-family="sans-serif">0 failed this session</text>
+<br/>
 
-<rect x="554" y="88" width="218" height="68" rx="8" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="568" y="107" fill="#64748b" font-size="8" font-family="sans-serif">MAC ADDRESS</text>
-<text x="568" y="125" fill="#a78bfa" font-size="11" font-family="monospace" font-weight="bold">A4:CF:12:78:3E:B2</text>
-<text x="568" y="142" fill="#475569" font-size="8" font-family="sans-serif">BT · BLE · WiFi 802.11 b/g/n</text>
+<table>
+<tr>
+<td align="center" width="50%">
 
-<!-- Flash progress section -->
-<rect x="62" y="168" width="450" height="140" rx="8" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="78" y="188" fill="#4ade80" font-size="10" font-family="monospace">⚡ Flash Firmware</text>
-<!-- Drop zone -->
-<rect x="78" y="198" width="418" height="50" rx="6" fill="#060c17" stroke="#1c2845" stroke-width="1" stroke-dasharray="4,3"/>
-<text x="287" y="226" fill="#475569" font-size="9" font-family="sans-serif" text-anchor="middle">Drop firmware.bin here or click to browse</text>
-<!-- Progress bar -->
-<text x="78" y="268" fill="#64748b" font-size="8" font-family="monospace">Flashing:  firmware_v2.1.bin  →  84%</text>
-<rect x="78" y="274" width="418" height="8" rx="4" fill="#1c2845"/>
-<rect x="78" y="274" width="351" height="8" rx="4" fill="url(#pg)" class="bar1"/>
-<text x="78" y="296" fill="#22c55e" font-size="8" font-family="monospace">Writing @ 0x10000 · 2.4 MB/s · 00:12 remaining</text>
+**💾 Backup**
 
-<!-- Serial monitor mini -->
-<rect x="522" y="168" width="250" height="140" rx="8" fill="#060b14" stroke="#1c2845" stroke-width="1"/>
-<text x="538" y="186" fill="#4ade80" font-size="10" font-family="monospace">🖥 Serial Monitor</text>
-<text x="536" y="202" fill="#475569" font-size="7" font-family="monospace">14:32:01</text>
-<text x="574" y="202" fill="#4ade80"  font-size="7" font-family="monospace">[OK]  esptool v4.8.1</text>
-<text x="536" y="214" fill="#475569" font-size="7" font-family="monospace">14:32:02</text>
-<text x="574" y="214" fill="#22d3ee" font-size="7" font-family="monospace">[DATA] Chip: ESP32-D0WD</text>
-<text x="536" y="226" fill="#475569" font-size="7" font-family="monospace">14:32:03</text>
-<text x="574" y="226" fill="#4ade80"  font-size="7" font-family="monospace">[OK]  Flash: 4MB QIO</text>
-<text x="536" y="238" fill="#475569" font-size="7" font-family="monospace">14:32:04</text>
-<text x="574" y="238" fill="#fbbf24" font-size="7" font-family="monospace">[WARN] Heap: 142KB</text>
-<text x="536" y="250" fill="#475569" font-size="7" font-family="monospace">14:32:05</text>
-<text x="574" y="250" fill="#4ade80"  font-size="7" font-family="monospace">[OK]  Writing flash...</text>
-<text x="536" y="262" fill="#475569" font-size="7" font-family="monospace">14:32:06</text>
-<text x="574" y="262" fill="#22d3ee" font-size="7" font-family="monospace">[DATA] 84% @ 2.4 MB/s<tspan class="blink">▌</tspan></text>
-<!-- Input bar -->
-<rect x="530" y="272" width="234" height="22" rx="4" fill="#060c17" stroke="#1c2845" stroke-width="1"/>
-<text x="540" y="286" fill="#4ade80" font-size="10">›</text>
-<text x="550" y="286" fill="#334155" font-size="8" font-family="monospace">Send command...</text>
+![Backup](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/backup_page.jpg)
 
-<!-- Partition visual -->
-<rect x="62" y="320" width="710" height="72" rx="8" fill="#0f1729" stroke="#1c2845" stroke-width="1"/>
-<text x="78" y="338" fill="#64748b" font-size="9" font-family="monospace">🗂  Partition Table — 4 MB Flash</text>
-<!-- Partition bar segments -->
-<rect x="78"  y="346" width="40"  height="14" rx="2" fill="#f59e0b" fill-opacity=".8"/>
-<rect x="120" y="346" width="14"  height="14" rx="2" fill="#22d3ee" fill-opacity=".8"/>
-<rect x="136" y="346" width="280" height="14" rx="2" fill="#22c55e" fill-opacity=".8"/>
-<rect x="418" y="346" width="280" height="14" rx="2" fill="#3b82f6" fill-opacity=".5"/>
-<rect x="700" y="346" width="88"  height="14" rx="2" fill="#8b5cf6" fill-opacity=".8"/>
-<text x="78"  y="374" fill="#f59e0b" font-size="7" font-family="monospace">NVS 24KB</text>
-<text x="120" y="374" fill="#22d3ee" font-size="7" font-family="monospace">OTA</text>
-<text x="186" y="374" fill="#4ade80" font-size="7" font-family="monospace">App0 (OTA_0) 1.25MB</text>
-<text x="490" y="374" fill="#93c5fd" font-size="7" font-family="monospace">App1 (OTA_1) 1.25MB</text>
-<text x="700" y="374" fill="#a78bfa" font-size="7" font-family="monospace">SPIFFS 512KB</text>
-</svg>
+</td>
+<td align="center" width="50%">
+
+**⬆️ Restore**
+
+![Restore](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/restore_page.jpg)
+
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+
+**🗂️ Partition Table**
+
+![Partitions](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/partition_page.jpg)
+
+</td>
+<td align="center" width="50%">
+
+**📁 File System Manager**
+
+![File System](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/filesystem_page.jpg)
+
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+
+**🔌 USB Driver Downloads**
+
+![USB Drivers](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/usb_driver_page.jpg)
+
+</td>
+<td align="center" width="50%">
+
+**❤️ About & Credits**
+
+![About](https://raw.githubusercontent.com/ElectroIoT/FirmFlow-FlashKit/master/public/about_page.jpg)
+
+</td>
+</tr>
+</table>
 
 </div>
 
