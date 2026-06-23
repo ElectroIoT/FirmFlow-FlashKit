@@ -8,8 +8,6 @@ import { useFlashStore } from "../store/useFlashStore";
 import { formatBytes } from "../lib/utils";
 
 const isTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
-// showDirectoryPicker is available in Chrome/Edge (File System Access API)
-const hasDirPicker = typeof window !== "undefined" && "showDirectoryPicker" in window;
 
 // Trigger a browser download of a fake binary blob
 function browserDownload(filename: string, bytes: number) {
@@ -55,8 +53,7 @@ export default function Backup() {
   const { device, addLog } = useFlashStore();
 
   const [mode, setMode]                     = useState<BackupMode>("full");
-  // In browser default to "Downloads" — no prompt needed
-  const [saveDir, setSaveDir]               = useState(isTauri ? "" : "Downloads (browser default)");
+  const [saveDir, setSaveDir]               = useState(isTauri ? "" : "Browser Downloads folder");
   const [selectedParts, setSelectedParts]   = useState<string[]>(["app0"]);
   const [singlePart, setSinglePart]         = useState("app0");
   const [customName, setCustomName]         = useState("");
@@ -76,22 +73,9 @@ export default function Backup() {
       } catch (e) {
         addLog("error", `Folder picker error: ${e}`);
       }
-    } else if (hasDirPicker) {
-      // Chrome/Edge: File System Access API directory picker
-      try {
-        // @ts-ignore
-        const handle = await window.showDirectoryPicker({ mode: "readwrite" });
-        setSaveDir(handle.name ?? "Selected folder");
-      } catch (e: unknown) {
-        // User cancelled — keep current value
-        if (e instanceof Error && e.name !== "AbortError") {
-          addLog("error", `Folder picker error: ${e.message}`);
-        }
-      }
     } else {
-      // Firefox / Safari fallback: just confirm Downloads
-      setSaveDir("Downloads (browser default)");
-      addLog("info", "Files will be downloaded to your browser's Downloads folder.");
+      // Browser: cannot pick arbitrary folders — files go to browser's download location
+      addLog("info", "Files will be saved to your browser's Downloads folder automatically.");
     }
   };
 
@@ -324,11 +308,13 @@ export default function Backup() {
               </button>
             )}
           </div>
-          <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-            onClick={pickFolder}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium hover:bg-cyan-500/20 transition-colors shrink-0">
-            <FolderOpen size={15} /> {isTauri ? "Browse" : hasDirPicker ? "Change Folder" : "Downloads ✓"}
-          </motion.button>
+          {isTauri && (
+            <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+              onClick={pickFolder}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium hover:bg-cyan-500/20 transition-colors shrink-0">
+              <FolderOpen size={15} /> Browse
+            </motion.button>
+          )}
         </div>
 
         {/* Output filename — only for full / single modes */}
@@ -456,7 +442,7 @@ export default function Backup() {
       )}
       {!isTauri && (
         <p className="text-xs text-slate-600 text-center font-mono">
-          {hasDirPicker ? "Files save to selected folder · click Change Folder to pick another" : "Files will download to your browser's Downloads folder"}
+          Files download automatically to your browser's Downloads folder
         </p>
       )}
       {!device && (
